@@ -1,4 +1,4 @@
-package nl.joel.KwetterApp;
+package com.joel.KwetterApp;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

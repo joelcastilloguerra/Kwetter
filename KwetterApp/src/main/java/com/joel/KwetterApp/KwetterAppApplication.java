@@ -1,4 +1,4 @@
-package nl.joel.KwetterApp;
+package com.joel.KwetterApp;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
