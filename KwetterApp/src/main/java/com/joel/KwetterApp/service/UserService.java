@@ -13,7 +13,10 @@ public class UserService {
 
     public String getUser() {
 
-        userRepo.save(new User("joel","123"));
+        User user = new User("joel","123");
+        user.addToFollowers(new User("follower", "password"));
+        userRepo.save(user);
+
         return "USER USER USER";
 
     }
