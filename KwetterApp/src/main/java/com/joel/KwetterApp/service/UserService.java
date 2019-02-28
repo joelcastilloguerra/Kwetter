@@ -13,11 +13,24 @@ public class UserService {
 
     public String getUser() {
 
-        User user = new User("joel","123");
+        User user = new User("GGGGGG","123");
         user.addToFollowers(new User("follower", "password"));
         userRepo.save(user);
 
         return "USER USER USER";
+
+    }
+
+    public void changeUserInfo(User user) {
+
+        //Change the user
+        userRepo.save(user);
+
+    }
+
+    public void addFollower(User followedUser, User followingUser){
+
+        //the followingUser is following the followedUser
 
     }
 }

@@ -32,6 +32,44 @@ public class User {
         this.username = username;
         this.password = password;
         followers = new ArrayList<>();
+        following = new ArrayList<>();
+    }
+
+    public User(int id, String username, String password) {
+        this.id = id;
+        this.username = username;
+        this.password = password;
+        followers = new ArrayList<>();
+        following = new ArrayList<>();
+    }
+
+    public User(String username, String password, String firstname, String lastname, String email, String bio, String location, String websiteUrl) {
+        this.username = username;
+        this.password = password;
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.email = email;
+        this.bio = bio;
+        this.location = location;
+        this.websiteUrl = websiteUrl;
+        followers = new ArrayList<>();
+        following = new ArrayList<>();
+    }
+
+    public User(String username, String password, String firstname, String lastname, String email, String bio, String location, String websiteUrl, List<User> followers, List<User> following) {
+        this.username = username;
+        this.password = password;
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.email = email;
+        this.bio = bio;
+        this.location = location;
+        this.websiteUrl = websiteUrl;
+        this.followers = followers;
+        this.following = following;
+    }
+
+    public User() {
     }
 
     public int getId() {
