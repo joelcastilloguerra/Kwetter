@@ -40,7 +40,7 @@ public class UserController {
     @ResponseBody
     public void removeFollower(@PathVariable(value = "idIsBeingUnFollowed") int idIsBeingUnFollowed, @PathVariable(value = "idIsUnFollowing") int idIsUnFollowing){
 
-        //the isFollowing is following isBeingFollowed
+        //the IsUnFollowing is unfollowing isBeingUnFollowed
         userService.removeFollower(idIsBeingUnFollowed, idIsUnFollowing);
 
     }
