@@ -3,10 +3,7 @@ package com.joel.KwetterApp.contoller;
 import com.joel.KwetterApp.model.User;
 import com.joel.KwetterApp.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/user")
@@ -16,10 +13,10 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @RequestMapping(method= RequestMethod.POST, value = "/user")
-    public String getUser(){
+    @RequestMapping(method= RequestMethod.POST, value = "/add")
+    public void add(@RequestBody User user){
 
-        return userService.getUser();
+        userService.add(user);
 
     }
 
@@ -30,10 +27,12 @@ public class UserController {
 
     }
 
-    @RequestMapping(value = "/addFollower", method = RequestMethod.POST, consumes="application/json")
-    public void addFollower(@RequestBody User followedUser, @RequestBody User followingUser){
+    @RequestMapping(value = "/addFollower/{idIsBeingFollowed}/{idIsFollowing}", method = RequestMethod.POST, consumes="application/json")
+    @ResponseBody
+    public void addFollower(@PathVariable(value = "idIsBeingFollowed") int idIsBeingFollowed, @PathVariable(value = "idIsFollowing") int idIsFollowing){
 
-        //the followingUser is following the followedUser
+        //the isFollowing is following isBeingFollowed
+        userService.addFollower(idIsBeingFollowed, idIsFollowing);
 
     }
 

@@ -11,26 +11,33 @@ public class UserService {
     @Autowired
     UserRepo userRepo;
 
-    public String getUser() {
+    public void add(User user) {
 
-        User user = new User("GGGGGG","123");
-        user.addToFollowers(new User("follower", "password"));
+        //Save the user in the db
         userRepo.save(user);
-
-        return "USER USER USER";
 
     }
 
     public void changeUserInfo(User user) {
 
-        //Change the user
+        //Change the user info in the db
         userRepo.save(user);
 
     }
 
-    public void addFollower(User followedUser, User followingUser){
+    public void addFollower(int idIsBeingFollowed, int idIsFollowing){
 
-        //the followingUser is following the followedUser
+        //Get the entire object from the ids
+        User isBeingFollowed = userRepo.getById(idIsBeingFollowed);
+        User isFollowing = userRepo.getById(idIsFollowing);
+
+        //Add the follower and following to the objects
+        isBeingFollowed.addToFollowers(isFollowing);
+        isFollowing.addToFollowing(isBeingFollowed);
+
+        //Save the objects in the db
+        userRepo.save(isBeingFollowed);
+        userRepo.save(isFollowing);
 
     }
 }

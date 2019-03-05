@@ -149,4 +149,10 @@ public class User {
         this.followers.add(user);
 
     }
+
+    public void addToFollowing(User user){
+
+        this.following.add(user);
+
+    }
 }
