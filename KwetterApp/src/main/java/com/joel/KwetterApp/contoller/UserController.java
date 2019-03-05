@@ -36,4 +36,13 @@ public class UserController {
 
     }
 
+    @RequestMapping(value = "/removeFollower/{idIsBeingUnFollowed}/{idIsUnFollowing}", method = RequestMethod.POST, consumes="application/json")
+    @ResponseBody
+    public void removeFollower(@PathVariable(value = "idIsBeingUnFollowed") int idIsBeingUnFollowed, @PathVariable(value = "idIsUnFollowing") int idIsUnFollowing){
+
+        //the isFollowing is following isBeingFollowed
+        userService.removeFollower(idIsBeingUnFollowed, idIsUnFollowing);
+
+    }
+
 }

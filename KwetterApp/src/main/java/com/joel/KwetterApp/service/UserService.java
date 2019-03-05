@@ -32,12 +32,28 @@ public class UserService {
         User isFollowing = userRepo.getById(idIsFollowing);
 
         //Add the follower and following to the objects
-        isBeingFollowed.addToFollowers(isFollowing);
+        isBeingFollowed.addToFollower(isFollowing);
         isFollowing.addToFollowing(isBeingFollowed);
 
         //Save the objects in the db
         userRepo.save(isBeingFollowed);
         userRepo.save(isFollowing);
+
+    }
+
+    public void removeFollower(int idIsBeingUnFollowed, int idIsUnFollowing) {
+
+        //Get the entire object from the ids
+        User IsBeingUnFollowed = userRepo.getById(idIsBeingUnFollowed);
+        User IsUnFollowing = userRepo.getById(idIsUnFollowing);
+
+        //Add the follower and following to the objects
+        IsBeingUnFollowed.removeFollower(IsUnFollowing);
+        IsUnFollowing.removeFollowing(IsBeingUnFollowed);
+
+        //Save the objects in the db
+        userRepo.save(IsBeingUnFollowed);
+        userRepo.save(IsUnFollowing);
 
     }
 }

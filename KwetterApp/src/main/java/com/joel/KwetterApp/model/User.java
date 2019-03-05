@@ -144,15 +144,27 @@ public class User {
         this.websiteUrl = websiteUrl;
     }
 
-    public void addToFollowers(User user){
+    public void addToFollower(User user){
 
         this.followers.add(user);
+
+    }
+
+    public void removeFollower(User user){
+
+        this.followers.remove(user);
 
     }
 
     public void addToFollowing(User user){
 
         this.following.add(user);
+
+    }
+
+    public void removeFollowing(User user){
+
+        this.following.remove(user);
 
     }
 }
