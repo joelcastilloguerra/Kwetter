@@ -5,6 +5,8 @@ import com.joel.KwetterApp.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/user")
 public class UserController {
@@ -42,6 +44,14 @@ public class UserController {
 
         //the IsUnFollowing is unfollowing isBeingUnFollowed
         userService.removeFollower(idIsBeingUnFollowed, idIsUnFollowing);
+
+    }
+
+    @RequestMapping(value = "/getAll", method = RequestMethod.GET)
+    @ResponseBody
+    public List<User> getAllUsers(){
+
+        return userService.getAll();
 
     }
 

@@ -5,6 +5,9 @@ import com.joel.KwetterApp.repo.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 public class UserService {
 
@@ -54,6 +57,16 @@ public class UserService {
         //Save the objects in the db
         userRepo.save(IsBeingUnFollowed);
         userRepo.save(IsUnFollowing);
+
+    }
+
+    public List<User> getAll() {
+
+        List<User> allUsers = new ArrayList<>();
+
+        userRepo.findAll().forEach(allUsers::add);
+
+        return allUsers;
 
     }
 }

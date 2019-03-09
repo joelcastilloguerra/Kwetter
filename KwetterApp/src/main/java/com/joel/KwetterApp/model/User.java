@@ -1,5 +1,7 @@
 package com.joel.KwetterApp.model;
 
+import com.joel.KwetterApp.enums.USER_ROLE;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +21,7 @@ public class User {
     private String bio;
     private String location;
     private String websiteUrl;
+    private USER_ROLE userRole;
 
     @OneToMany(cascade= CascadeType.ALL)
     @JoinTable(name="User_Followers")
@@ -41,32 +44,6 @@ public class User {
         this.password = password;
         followers = new ArrayList<>();
         following = new ArrayList<>();
-    }
-
-    public User(String username, String password, String firstname, String lastname, String email, String bio, String location, String websiteUrl) {
-        this.username = username;
-        this.password = password;
-        this.firstname = firstname;
-        this.lastname = lastname;
-        this.email = email;
-        this.bio = bio;
-        this.location = location;
-        this.websiteUrl = websiteUrl;
-        followers = new ArrayList<>();
-        following = new ArrayList<>();
-    }
-
-    public User(String username, String password, String firstname, String lastname, String email, String bio, String location, String websiteUrl, List<User> followers, List<User> following) {
-        this.username = username;
-        this.password = password;
-        this.firstname = firstname;
-        this.lastname = lastname;
-        this.email = email;
-        this.bio = bio;
-        this.location = location;
-        this.websiteUrl = websiteUrl;
-        this.followers = followers;
-        this.following = following;
     }
 
     public User() {

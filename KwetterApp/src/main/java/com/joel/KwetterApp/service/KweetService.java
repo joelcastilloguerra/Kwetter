@@ -58,4 +58,11 @@ public class KweetService {
         return kweetRepo.findTop10ByPosterId(id);
 
     }
+
+
+    public void removeKweet(int kweetId) {
+
+        kweetRepo.deleteById(kweetId);
+
+    }
 }

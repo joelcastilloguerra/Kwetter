@@ -44,7 +44,12 @@ public class KweetController {
 
     }
 
+    @RequestMapping(method = RequestMethod.DELETE, value = "/remove/{kweetId}")
+    public void removeKweet(@PathVariable (value = "kweetId") int kweetId){
 
+        kweetService.removeKweet(kweetId);
+
+    }
 
 
 
