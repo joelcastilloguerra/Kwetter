@@ -7,6 +7,8 @@ import com.joel.KwetterApp.repo.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class KweetService {
 
@@ -39,4 +41,21 @@ public class KweetService {
 
     }
 
+
+    public void likeKweet(int kweetId, int likerId) {
+
+        Kweet likedKweet = kweetRepo.getById(kweetId);
+        User liker = userRepo.getById(likerId);
+
+        likedKweet.addLikedBy(liker);
+
+        kweetRepo.save(likedKweet);
+
+    }
+
+    public List<Kweet> getLatest(int id) {
+
+        return kweetRepo.findTop10ByPosterId(id);
+
+    }
 }
