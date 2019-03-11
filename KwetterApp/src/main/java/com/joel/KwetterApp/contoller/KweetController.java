@@ -51,6 +51,13 @@ public class KweetController {
 
     }
 
+    @RequestMapping(method = RequestMethod.GET, value = "/getTimeline/{userId}")
+    public List<Kweet> getUserTimeline(@PathVariable (value = "userId") int userId){
+
+        return kweetService.getUserTimeline(userId);
+
+    }
+
 
 
 }

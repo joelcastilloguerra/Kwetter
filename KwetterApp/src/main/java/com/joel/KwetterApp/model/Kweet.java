@@ -1,17 +1,21 @@
 package com.joel.KwetterApp.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
 
 @Entity
-public class Kweet {
+public class Kweet implements Comparable<Kweet>{
 
     @Id
     @GeneratedValue
     private int id;
 
     private String content;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd@HH:mm:ss.SSSZ")
     private Date dateTime;
 
     @ManyToOne(fetch = FetchType.EAGER)
@@ -74,5 +78,10 @@ public class Kweet {
 
     public void removeLikedBy(User user) {
         this.likedBy.remove(user);
+    }
+
+    @Override
+    public int compareTo(Kweet o) {
+        return getDateTime().compareTo(o.getDateTime());
     }
 }

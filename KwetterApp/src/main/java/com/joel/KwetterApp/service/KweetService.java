@@ -7,6 +7,8 @@ import com.joel.KwetterApp.repo.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -69,6 +71,27 @@ public class KweetService {
     public List<Kweet> search(String searchString) {
 
         return kweetRepo.findByContentContaining(searchString);
+
+    }
+
+    public List<Kweet> getUserTimeline(int userId) {
+
+        List<Kweet> timeline = new ArrayList<>();
+
+        //Get the full profile of the user
+        User user = userRepo.getById(userId);
+
+        for(int i = 0; i < user.getFollowing().size(); i++){
+
+            timeline.addAll(kweetRepo.findByPosterId(user.getFollowing().get(i).getId()));
+
+        }
+
+        timeline.addAll(kweetRepo.findByPosterId(userId));
+
+        Collections.sort(timeline);
+
+        return timeline;
 
     }
 }
