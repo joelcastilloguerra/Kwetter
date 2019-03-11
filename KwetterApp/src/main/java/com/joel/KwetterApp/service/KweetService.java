@@ -65,4 +65,10 @@ public class KweetService {
         kweetRepo.deleteById(kweetId);
 
     }
+
+    public List<Kweet> search(String searchString) {
+
+        return kweetRepo.findByContentContaining(searchString);
+
+    }
 }

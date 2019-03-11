@@ -10,5 +10,6 @@ public interface KweetRepo extends CrudRepository<Kweet, Integer> {
 
     Kweet getById(Integer id);
     List<Kweet> findTop10ByPosterId(int id);
+    List<Kweet> findByContentContaining(String content);
 
 }

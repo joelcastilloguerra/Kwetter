@@ -23,12 +23,12 @@ public class KweetController {
 
     }
 
-//    @RequestMapping(method = RequestMethod.POST, value = "/search/{searchString}")
-//    public List<Kweet> search(@PathVariable (value = "searchString") String searchString){
-//
-//        return kweetService.search(searchString);
-//
-//    }
+    @RequestMapping(method = RequestMethod.GET, value = "/search/{searchString}")
+    public List<Kweet> search(@PathVariable (value = "searchString") String searchString){
+
+        return kweetService.search(searchString);
+
+    }
 
     @RequestMapping(method = RequestMethod.POST, value = "/like/{kweetId}/{likerId}")
     public void likeKweet(@PathVariable (value = "kweetId") int kweetId, @PathVariable (value = "likerId") int likerId){
