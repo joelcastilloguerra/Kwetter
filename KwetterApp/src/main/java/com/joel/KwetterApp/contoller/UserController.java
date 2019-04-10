@@ -49,9 +49,17 @@ public class UserController {
 
     @RequestMapping(value = "/getAll", method = RequestMethod.GET)
     @ResponseBody
-    public List<User> getAllUsers(){
+    public User getAllUsers(){
 
-        return userService.getAll();
+        return userService.getAll().get(1);
+
+    }
+
+    @RequestMapping(value = "/get/{id}", method = RequestMethod.GET)
+    @ResponseBody
+    public User getUserById(@PathVariable(value = "id") int id){
+
+        return userService.get(id);
 
     }
 

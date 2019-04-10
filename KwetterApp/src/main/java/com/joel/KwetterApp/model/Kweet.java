@@ -15,10 +15,10 @@ public class Kweet implements Comparable<Kweet>{
 
     private String content;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd@HH:mm:ss.SSSZ")
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Date dateTime;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
     private User poster;
 
@@ -60,8 +60,8 @@ public class Kweet implements Comparable<Kweet>{
         this.dateTime = dateTime;
     }
 
-    public User getPoster() {
-        return poster;
+    public int getPoster() {
+        return poster.getId();
     }
 
     public void setPoster(User poster) {

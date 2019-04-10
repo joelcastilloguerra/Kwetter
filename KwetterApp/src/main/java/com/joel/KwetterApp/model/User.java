@@ -1,16 +1,11 @@
 package com.joel.KwetterApp.model;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.joel.KwetterApp.enums.USER_ROLE;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@JsonIdentityInfo(
-        generator = ObjectIdGenerators.PropertyGenerator.class,
-        property = "id")
 @Entity
 public class User {
 
@@ -49,6 +44,12 @@ public class User {
         this.password = password;
         followers = new ArrayList<>();
         following = new ArrayList<>();
+    }
+
+    public User(int id){
+
+        this.id = id;
+
     }
 
     public User() {
@@ -126,15 +127,31 @@ public class User {
         this.websiteUrl = websiteUrl;
     }
 
-    public List<User> getFollowers(){
+    public ArrayList<Integer> getFollowers(){
 
-        return this.followers;
+        ArrayList<Integer> returnList = new ArrayList<>();
+
+        for(User user : this.followers){
+
+            returnList.add(user.getId());
+
+        }
+
+        return returnList;
 
     }
 
-    public List<User> getFollowing(){
+    public List<Integer> getFollowing(){
 
-        return this.following;
+        ArrayList<Integer> returnList = new ArrayList<>();
+
+        for(User user : this.following){
+
+            returnList.add(user.getId());
+
+        }
+
+        return returnList;
 
     }
 

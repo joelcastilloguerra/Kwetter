@@ -7,6 +7,7 @@ import com.joel.KwetterApp.repo.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -23,7 +24,7 @@ public class KweetService {
     public void add(Kweet kweet) {
 
         //Get the full profile of the poster
-        User poster = userRepo.getById(kweet.getPoster().getId());
+        User poster = userRepo.getById(kweet.getPoster());
 
         //Replace the current (id only) profile with the full profile
         kweet.setPoster(poster);
@@ -83,13 +84,15 @@ public class KweetService {
 
         for(int i = 0; i < user.getFollowing().size(); i++){
 
-            timeline.addAll(kweetRepo.findByPosterId(user.getFollowing().get(i).getId()));
+            timeline.addAll(kweetRepo.findByPosterId(user.getFollowing().get(i)));
 
         }
 
         timeline.addAll(kweetRepo.findByPosterId(userId));
 
         Collections.sort(timeline);
+
+        Collections.reverse(timeline);
 
         return timeline;
 

@@ -69,4 +69,10 @@ public class UserService {
         return allUsers;
 
     }
+
+    public User get(int id) {
+
+        return userRepo.getById(id);
+
+    }
 }
