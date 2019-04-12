@@ -97,4 +97,33 @@ public class KweetService {
         return timeline;
 
     }
+
+    public Boolean ifUserLikedKweet(int userId, int kweetId) {
+
+        Kweet kweet = kweetRepo.getById(kweetId);
+
+        for(int i = 0 ; i < kweet.getLikedBy().size() ; i++){
+
+            if(kweet.getLikedBy().get(i).getId() == userId){
+
+                return true;
+
+            }
+
+        }
+
+        return false;
+
+    }
+
+    public void unLikeKweet(int kweetId, int likerId) {
+
+        Kweet unLikedKweet = kweetRepo.getById(kweetId);
+        User unLiker = userRepo.getById(likerId);
+
+        unLikedKweet.removeLikedBy(unLiker);
+
+        kweetRepo.save(unLikedKweet);
+
+    }
 }

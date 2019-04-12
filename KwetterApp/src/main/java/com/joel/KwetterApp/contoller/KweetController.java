@@ -37,6 +37,13 @@ public class KweetController {
 
     }
 
+    @RequestMapping(method = RequestMethod.POST, value = "/unLike/{kweetId}/{likerId}")
+    public void unLikeKweet(@PathVariable (value = "kweetId") int kweetId, @PathVariable (value = "likerId") int likerId){
+
+        kweetService.unLikeKweet(kweetId, likerId);
+
+    }
+
     @RequestMapping(method = RequestMethod.GET, value = "/getLatest/{userId}")
     public List<Kweet> getLatest(@PathVariable (value = "userId") int userId){
 
@@ -57,5 +64,14 @@ public class KweetController {
         return kweetService.getUserTimeline(userId);
 
     }
+
+    @RequestMapping(value = "/liked/{userId}/{kweetId}", method = RequestMethod.GET)
+    @ResponseBody
+    public Boolean ifUserLikedKweet(@PathVariable(value = "userId") int userId, @PathVariable(value = "kweetId") int kweetId){
+
+        return kweetService.ifUserLikedKweet(userId, kweetId);
+
+    }
+
 
 }
