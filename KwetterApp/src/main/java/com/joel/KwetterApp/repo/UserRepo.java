@@ -7,4 +7,8 @@ public interface UserRepo extends CrudRepository<User, Integer> {
 
     User getById(Integer id);
 
+    User findByUsername(String username);
+
+    Boolean existsByUsername(String username);
+
 }

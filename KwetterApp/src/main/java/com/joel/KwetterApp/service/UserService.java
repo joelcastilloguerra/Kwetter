@@ -1,8 +1,16 @@
 package com.joel.KwetterApp.service;
 
+import com.joel.KwetterApp.config.JwtTokenProvider;
+import com.joel.KwetterApp.enums.USER_ROLE;
+import com.joel.KwetterApp.exception.CustomException;
 import com.joel.KwetterApp.model.User;
 import com.joel.KwetterApp.repo.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -13,6 +21,39 @@ public class UserService {
 
     @Autowired
     private UserRepo userRepo;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private JwtTokenProvider jwtTokenProvider;
+
+    @Autowired
+    private AuthenticationManager authenticationManager;
+
+    public String signin(String username, String password) {
+
+        try {
+
+            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
+            return jwtTokenProvider.createToken(username, new ArrayList<USER_ROLE>(){{ add(userRepo.findByUsername(username).getRole());}});
+        } catch (AuthenticationException e) {
+            throw new CustomException("Username or password invalid", HttpStatus.UNPROCESSABLE_ENTITY);
+        }
+    }
+
+    public String signup(User user) {
+        if (!userRepo.existsByUsername(user.getUsername())) {
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+            List<USER_ROLE> userRoles = new ArrayList<>();
+            userRoles.add(USER_ROLE.NORMAL_USER);
+            user.setUserRole(userRoles.get(0));
+            userRepo.save(user);
+            return jwtTokenProvider.createToken(user.getUsername(), new ArrayList<USER_ROLE>(){{ add(userRepo.findByUsername(user.getUsername()).getRole());}});
+        } else {
+            throw new CustomException("Username is already taken!", HttpStatus.UNPROCESSABLE_ENTITY);
+        }
+    }
 
     public void add(User user) {
 

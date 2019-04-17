@@ -38,10 +38,12 @@ public class User {
         following = new ArrayList<>();
     }
 
-    public User(int id, String username, String password) {
-        this.id = id;
+    public User(String username, String password, String firstname, String lastname, String email) {
         this.username = username;
         this.password = password;
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.email = email;
         followers = new ArrayList<>();
         following = new ArrayList<>();
     }
@@ -53,6 +55,10 @@ public class User {
     }
 
     public User() {
+    }
+
+    public USER_ROLE getUserRole() {
+        return userRole;
     }
 
     public int getId() {
@@ -155,6 +161,10 @@ public class User {
 
     }
 
+    public void setUserRole(USER_ROLE userRole) {
+        this.userRole = userRole;
+    }
+
     public void addToFollower(User user){
 
         this.followers.add(user);
@@ -176,6 +186,12 @@ public class User {
     public void removeFollowing(User user){
 
         this.following.remove(user);
+
+    }
+
+    public USER_ROLE getRole() {
+
+        return this.userRole;
 
     }
 }
