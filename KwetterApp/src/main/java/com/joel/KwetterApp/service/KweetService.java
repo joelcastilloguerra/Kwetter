@@ -71,7 +71,12 @@ public class KweetService {
 
     public List<Kweet> search(String searchString) {
 
-        return kweetRepo.findByContentContaining(searchString);
+        List<Kweet> result = kweetRepo.findByContentContaining(searchString);
+
+        Collections.reverse(result);
+
+        return result;
+
 
     }
 
