@@ -7,7 +7,6 @@ import com.joel.KwetterApp.repo.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -65,18 +64,15 @@ public class KweetService {
 
     public void removeKweet(int kweetId) {
 
-        kweetRepo.deleteById(kweetId);
+        Kweet kweet = kweetRepo.getById(kweetId);
+        kweet.setPoster(new User());
+        kweetRepo.delete(kweet);
 
     }
 
     public List<Kweet> search(String searchString) {
 
-        List<Kweet> result = kweetRepo.findByContentContaining(searchString);
-
-        Collections.reverse(result);
-
-        return result;
-
+        return kweetRepo.findByContentContaining(searchString);
 
     }
 

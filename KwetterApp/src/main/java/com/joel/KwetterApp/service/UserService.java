@@ -13,6 +13,8 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,6 +44,12 @@ public class UserService {
         }
     }
 
+    public User whoami(HttpServletRequest req) {
+
+        return userRepo.findByUsername(jwtTokenProvider.getUsername(jwtTokenProvider.resolveToken(req)));
+
+    }
+
     public String signup(User user) {
         if (!userRepo.existsByUsername(user.getUsername())) {
             user.setPassword(passwordEncoder.encode(user.getPassword()));
@@ -62,10 +70,10 @@ public class UserService {
 
     }
 
-    public void changeUserInfo(User user) {
+    public void changeUserInfo(User updatedProfile){
 
         //Change the user info in the db
-        userRepo.save(user);
+        userRepo.save(updatedProfile);
 
     }
 
@@ -114,6 +122,34 @@ public class UserService {
     public User get(int id) {
 
         return userRepo.getById(id);
+
+    }
+
+    public List<User> search(String searchString) {
+
+        return userRepo.findByFirstnameContaining(searchString);
+
+    }
+
+    public void changeUserRole(int userId, User user) {
+
+        User changedUser = this.get(userId);
+
+        if(user.getRole().equals(USER_ROLE.MODERATOR)){
+
+            switch (changedUser.getRole()){
+
+                case NORMAL_USER:
+                    changedUser.setUserRole(USER_ROLE.MODERATOR);
+                    break;
+                case MODERATOR:
+                    changedUser.setUserRole(USER_ROLE.NORMAL_USER);
+
+            }
+
+            userRepo.save(changedUser);
+
+        }
 
     }
 }

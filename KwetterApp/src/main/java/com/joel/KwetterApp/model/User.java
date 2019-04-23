@@ -38,6 +38,11 @@ public class User {
         following = new ArrayList<>();
     }
 
+    public User(int id, String username) {
+        this.id = id;
+        this.username = username;
+    }
+
     public User(String username, String password, String firstname, String lastname, String email) {
         this.username = username;
         this.password = password;
@@ -46,6 +51,47 @@ public class User {
         this.email = email;
         followers = new ArrayList<>();
         following = new ArrayList<>();
+    }
+
+    public User(int id, String username, String password, String firstname, String lastname, String email, String bio, String location, String websiteUrl) {
+
+        this.id = id;
+        this.username = username;
+        this.password = password;
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.email = email;
+        this.bio = bio;
+        this.location = location;
+        this.websiteUrl = websiteUrl;
+
+    }
+
+    public User(int id, String username, String password, String firstname, String lastname, String email, String bio, String location, String websiteUrl, USER_ROLE userRole) {
+
+        this.id = id;
+        this.username = username;
+        this.password = password;
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.email = email;
+        this.bio = bio;
+        this.location = location;
+        this.websiteUrl = websiteUrl;
+        this.userRole = userRole;
+    }
+
+    public User(int id, String username, String firstname, String lastname, String email, String bio, String location, String websiteUrl, USER_ROLE userRole) {
+
+        this.id = id;
+        this.username = username;
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.email = email;
+        this.bio = bio;
+        this.location = location;
+        this.websiteUrl = websiteUrl;
+        this.userRole = userRole;
     }
 
     public User(int id){

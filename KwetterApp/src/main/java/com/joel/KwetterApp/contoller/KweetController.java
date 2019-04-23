@@ -3,10 +3,12 @@ package com.joel.KwetterApp.contoller;
 import com.joel.KwetterApp.model.Kweet;
 import com.joel.KwetterApp.model.User;
 import com.joel.KwetterApp.service.KweetService;
+import com.joel.KwetterApp.service.UserService;
 import com.sun.org.apache.regexp.internal.RE;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @RestController
@@ -16,17 +18,25 @@ public class KweetController {
     @Autowired
     private KweetService kweetService;
 
-    @RequestMapping(method= RequestMethod.POST, value = "/add")
-    public void add(@RequestBody Kweet kweet){
+    @Autowired
+    private UserService userService;
 
+    @RequestMapping(method= RequestMethod.POST, value = "/add")
+    public void add(HttpServletRequest req, @RequestBody Kweet kweet){
+
+        User user = userService.whoami(req);
+        kweet.setPoster(user);
         kweetService.add(kweet);
 
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/search/{searchString}")
-    public List<Kweet> search(@PathVariable (value = "searchString") String searchString){
+    @RequestMapping(value = "/search/{searchString}", method = RequestMethod.GET)
+    @ResponseBody
+    public List<Kweet> search(@PathVariable(value = "searchString") String searchString){
 
-        return kweetService.search(searchString);
+        List<Kweet> foundKweets = kweetService.search(searchString);
+
+        return foundKweets;
 
     }
 
@@ -44,10 +54,12 @@ public class KweetController {
 
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/getLatest/{userId}")
-    public List<Kweet> getLatest(@PathVariable (value = "userId") int userId){
+    @RequestMapping(method = RequestMethod.GET, value = "/getLatest")
+    public List<Kweet> getLatest(HttpServletRequest req){
 
-        return kweetService.getLatest(userId);
+        User user = userService.whoami(req);
+
+        return kweetService.getLatest(user.getId());
 
     }
 
@@ -58,10 +70,12 @@ public class KweetController {
 
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/getTimeline/{userId}")
-    public List<Kweet> getUserTimeline(@PathVariable (value = "userId") int userId){
+    @RequestMapping(method = RequestMethod.GET, value = "/getTimeline")
+    public List<Kweet> getUserTimeline(HttpServletRequest req){
 
-        return kweetService.getUserTimeline(userId);
+        User user = userService.whoami(req);
+
+        return kweetService.getUserTimeline(user.getId());
 
     }
 

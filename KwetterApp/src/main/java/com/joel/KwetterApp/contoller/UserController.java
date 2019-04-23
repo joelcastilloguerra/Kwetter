@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,26 +25,27 @@ public class UserController {
     private ModelMapper modelMapper = new ModelMapper();
 
 
-    @RequestMapping(method= RequestMethod.POST, value = "/add")
-    public void add(@RequestBody User user){
-
-        userService.add(user);
-
-    }
-
     @RequestMapping(value = "/changeInfo", method = RequestMethod.POST, consumes="application/json")
-    public void changeUserInfo(@RequestBody User user){
+    public void changeUserInfo(HttpServletRequest req, @RequestBody User user){
 
         userService.changeUserInfo(user);
 
     }
 
-    @RequestMapping(value = "/addFollower/{idIsBeingFollowed}/{idIsFollowing}", method = RequestMethod.POST, consumes="application/json")
-    @ResponseBody
-    public void addFollower(@PathVariable(value = "idIsBeingFollowed") int idIsBeingFollowed, @PathVariable(value = "idIsFollowing") int idIsFollowing){
+    @RequestMapping(value = "/changeRole/{userId}", method = RequestMethod.POST)
+    public void changeUserRole(HttpServletRequest req, @PathVariable(value = "userId") int userId) {
 
+        userService.changeUserRole(userId, userService.whoami(req));
+
+    }
+
+    @RequestMapping(value = "/addFollower/{idIsBeingFollowed}", method = RequestMethod.POST, consumes="application/json")
+    @ResponseBody
+    public void addFollower(HttpServletRequest req, @PathVariable(value = "idIsBeingFollowed") int idIsBeingFollowed){
+
+        User user = userService.whoami(req);
         //the isFollowing is following isBeingFollowed
-        userService.addFollower(idIsBeingFollowed, idIsFollowing);
+        userService.addFollower(idIsBeingFollowed, user.getId());
 
     }
 
@@ -56,13 +58,25 @@ public class UserController {
 
     }
 
-    @RequestMapping(value = "/getAll", method = RequestMethod.GET)
+    @RequestMapping(value = "/get", method = RequestMethod.GET)
     @ResponseBody
-    public User getAllUsers(){
+    public User getUser(HttpServletRequest req){
 
-        return userService.getAll().get(1);
+        User user = userService.whoami(req);
+
+        return user;
 
     }
+
+    @RequestMapping(value = "/search/{searchString}", method = RequestMethod.GET)
+    @ResponseBody
+    public List<User> search(@PathVariable(value = "searchString") String searchString){
+
+        return userService.search(searchString);
+
+    }
+
+
 
     @RequestMapping(value = "/get/{id}", method = RequestMethod.GET)
     @ResponseBody

@@ -1,6 +1,8 @@
 package com.joel.KwetterApp.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -13,6 +15,7 @@ public class Kweet implements Comparable<Kweet>{
     @GeneratedValue
     private int id;
 
+    @Column(name="content")
     private String content;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING)
@@ -29,7 +32,8 @@ public class Kweet implements Comparable<Kweet>{
     public Kweet() {
     }
 
-    public Kweet(String content, Date dateTime, User poster, List<User> likedBy) {
+    public Kweet(int id, String content, Date dateTime, User poster, List<User> likedBy) {
+        this.id = id;
         this.content = content;
         this.dateTime = dateTime;
         this.poster = poster;
