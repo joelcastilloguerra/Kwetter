@@ -1,8 +1,6 @@
 package com.joel.KwetterApp.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -21,7 +19,7 @@ public class Kweet implements Comparable<Kweet>{
     @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Date dateTime;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.DETACH)
     @JoinColumn(name = "user_id")
     private User poster;
 

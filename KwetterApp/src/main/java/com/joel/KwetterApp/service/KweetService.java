@@ -66,6 +66,7 @@ public class KweetService {
 
         Kweet kweet = kweetRepo.getById(kweetId);
         kweet.setPoster(new User());
+        kweetRepo.save(kweet);
         kweetRepo.delete(kweet);
 
     }
