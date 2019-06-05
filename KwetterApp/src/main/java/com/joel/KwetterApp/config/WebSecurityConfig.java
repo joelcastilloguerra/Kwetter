@@ -31,6 +31,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 // Allow Sign In and Sign Up routes
                 .antMatchers("/user/signin").permitAll()
                 .antMatchers("/user/signup").permitAll()
+                .antMatchers("/socket/**").permitAll()
                 // Disallow everything else..
                 .anyRequest().authenticated();
 
