@@ -1,6 +1,7 @@
 package com.joel.KwetterApp.model;
 
 import com.joel.KwetterApp.enums.USER_ROLE;
+import com.joel.KwetterApp.mail.VerificationToken;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -22,6 +23,10 @@ public class User {
     private String location;
     private String websiteUrl;
     private USER_ROLE userRole;
+
+    @OneToOne(targetEntity = VerificationToken.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "token_id")
+    private VerificationToken token;
 
     @OneToMany(cascade= CascadeType.ALL)
     @JoinTable(name="User_Followers")
@@ -239,5 +244,13 @@ public class User {
 
         return this.userRole;
 
+    }
+
+    public VerificationToken getToken() {
+        return token;
+    }
+
+    public void setToken(VerificationToken token) {
+        this.token = token;
     }
 }

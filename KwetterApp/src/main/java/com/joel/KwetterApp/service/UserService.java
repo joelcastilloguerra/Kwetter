@@ -3,6 +3,8 @@ package com.joel.KwetterApp.service;
 import com.joel.KwetterApp.config.JwtTokenProvider;
 import com.joel.KwetterApp.enums.USER_ROLE;
 import com.joel.KwetterApp.exception.CustomException;
+import com.joel.KwetterApp.mail.MailController;
+import com.joel.KwetterApp.mail.VerificationToken;
 import com.joel.KwetterApp.model.User;
 import com.joel.KwetterApp.repo.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +14,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Field;
@@ -23,6 +26,8 @@ public class UserService {
 
     @Autowired
     private UserRepo userRepo;
+
+    MailController mailController = new MailController();
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -50,13 +55,15 @@ public class UserService {
 
     }
 
-    public String signup(User user) {
+    public String signup(User user) throws Exception {
         if (!userRepo.existsByUsername(user.getUsername())) {
             user.setPassword(passwordEncoder.encode(user.getPassword()));
             List<USER_ROLE> userRoles = new ArrayList<>();
             userRoles.add(USER_ROLE.NORMAL_USER);
             user.setUserRole(userRoles.get(0));
+            user.setToken(new VerificationToken(false, UUID.randomUUID().toString()));
             userRepo.save(user);
+            mailController.sendUserEmail(user);
             return jwtTokenProvider.createToken(user.getUsername(), new ArrayList<USER_ROLE>(){{ add(userRepo.findByUsername(user.getUsername()).getRole());}});
         } else {
             throw new CustomException("Username is already taken!", HttpStatus.UNPROCESSABLE_ENTITY);

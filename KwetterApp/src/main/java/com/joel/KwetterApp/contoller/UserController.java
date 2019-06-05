@@ -105,7 +105,7 @@ public class UserController {
     }
 
     @PostMapping("/signup")
-    public Map<String, String> signup(@RequestBody User user) {
+    public Map<String, String> signup(@RequestBody User user) throws Exception {
 
         System.out.println(user.toString());
 
@@ -123,5 +123,6 @@ public class UserController {
 
         }
     }
+
 
 }
