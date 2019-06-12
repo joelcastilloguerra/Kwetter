@@ -39,7 +39,7 @@ public class UserController {
 
     }
 
-    @RequestMapping(value = "/addFollower/{idIsBeingFollowed}", method = RequestMethod.POST, consumes="application/json")
+    @RequestMapping(value = "/addOrRemoveFollower/{idIsBeingFollowed}", method = RequestMethod.POST)
     @ResponseBody
     public void addFollower(HttpServletRequest req, @PathVariable(value = "idIsBeingFollowed") int idIsBeingFollowed){
 
@@ -49,12 +49,13 @@ public class UserController {
 
     }
 
-    @RequestMapping(value = "/removeFollower/{idIsBeingUnFollowed}/{idIsUnFollowing}", method = RequestMethod.POST, consumes="application/json")
+    @RequestMapping(value = "/isFollowing/{idIsBeingFollowed}", method = RequestMethod.GET)
     @ResponseBody
-    public void removeFollower(@PathVariable(value = "idIsBeingUnFollowed") int idIsBeingUnFollowed, @PathVariable(value = "idIsUnFollowing") int idIsUnFollowing){
+    public Boolean isFollowing(HttpServletRequest req, @PathVariable(value = "idIsBeingFollowed") int idIsBeingFollowed){
 
-        //the IsUnFollowing is unfollowing isBeingUnFollowed
-        userService.removeFollower(idIsBeingUnFollowed, idIsUnFollowing);
+        User user = userService.whoami(req);
+        //the isFollowing is following isBeingFollowed
+        return userService.isFollowing(idIsBeingFollowed, user.getId());
 
     }
 
@@ -83,6 +84,16 @@ public class UserController {
     public User getUserById(@PathVariable(value = "id") int id){
 
         return userService.get(id);
+
+    }
+
+    @RequestMapping(value = "/setCurrentUser", method = RequestMethod.GET)
+    @ResponseBody
+    public User getCurrentUser(HttpServletRequest req){
+
+        User user = userService.whoami(req);
+
+        return userService.get(user.getId());
 
     }
 
@@ -122,6 +133,14 @@ public class UserController {
             throw new CustomException("Username, Password, Firstname, Lastname or Email not supplied", HttpStatus.UNPROCESSABLE_ENTITY);
 
         }
+    }
+
+    @RequestMapping(value = "/verify/{token}", method = RequestMethod.GET)
+    @ResponseBody
+    public String verify(@PathVariable(value = "token") String token){
+
+        return userService.verify(token);
+
     }
 
 

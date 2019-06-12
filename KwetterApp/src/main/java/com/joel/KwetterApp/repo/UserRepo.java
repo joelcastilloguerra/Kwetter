@@ -15,4 +15,6 @@ public interface UserRepo extends CrudRepository<User, Integer> {
 
     Boolean existsByUsername(String username);
 
+    User findByTokenToken(String token);
+
 }

@@ -52,7 +52,7 @@ public class MailController {
         MimeMessageHelper helper = new MimeMessageHelper(message);
 
         helper.setTo("joelcastillog@gmail.com");
-        helper.setText("Verify your account by going here: localhost:8081/verify" + user.getToken().getToken());
+        helper.setText("Verify your account by going here: localhost:8081/user/verify/" + user.getToken().getToken());
         helper.setSubject("Verify your account");
 
         sender.send(message);

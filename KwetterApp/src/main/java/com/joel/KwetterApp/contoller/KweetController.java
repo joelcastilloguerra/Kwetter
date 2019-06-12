@@ -54,12 +54,10 @@ public class KweetController {
 
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/getLatest")
-    public List<Kweet> getLatest(HttpServletRequest req){
+    @RequestMapping(method = RequestMethod.GET, value = "/getLatest/{id}")
+    public List<Kweet> getLatest(@PathVariable (value = "id") int id){
 
-        User user = userService.whoami(req);
-
-        return kweetService.getLatest(user.getId());
+        return kweetService.getLatest(id);
 
     }
 
@@ -79,11 +77,13 @@ public class KweetController {
 
     }
 
-    @RequestMapping(value = "/liked/{userId}/{kweetId}", method = RequestMethod.GET)
+    @RequestMapping(value = "/liked/{kweetId}", method = RequestMethod.GET)
     @ResponseBody
-    public Boolean ifUserLikedKweet(@PathVariable(value = "userId") int userId, @PathVariable(value = "kweetId") int kweetId){
+    public Boolean ifUserLikedKweet(HttpServletRequest req, @PathVariable(value = "kweetId") int kweetId){
 
-        return kweetService.ifUserLikedKweet(userId, kweetId);
+        User user = userService.whoami(req);
+
+        return kweetService.ifUserLikedKweet(user.getId(), kweetId);
 
     }
 

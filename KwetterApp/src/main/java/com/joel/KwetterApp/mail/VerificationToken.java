@@ -20,6 +20,9 @@ public class VerificationToken {
         this.token = token;
     }
 
+    public VerificationToken() {
+    }
+
     public int getId() {
         return id;
     }

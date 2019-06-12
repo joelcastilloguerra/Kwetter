@@ -1,5 +1,8 @@
 package com.joel.KwetterApp.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.joel.KwetterApp.enums.USER_ROLE;
 import com.joel.KwetterApp.mail.VerificationToken;
 
@@ -24,14 +27,17 @@ public class User {
     private String websiteUrl;
     private USER_ROLE userRole;
 
+    @JsonIgnore
     @OneToOne(targetEntity = VerificationToken.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "token_id")
     private VerificationToken token;
 
+    @JsonIgnore
     @OneToMany(cascade= CascadeType.ALL)
     @JoinTable(name="User_Followers")
     List<User> followers;
 
+    @JsonIgnore
     @OneToMany(cascade= CascadeType.ALL)
     @JoinTable(name="User_Following")
     List<User> following;
@@ -184,33 +190,18 @@ public class User {
         this.websiteUrl = websiteUrl;
     }
 
-    public ArrayList<Integer> getFollowers(){
+    public List<User> getFollowers(){
 
-        ArrayList<Integer> returnList = new ArrayList<>();
-
-        for(User user : this.followers){
-
-            returnList.add(user.getId());
-
-        }
-
-        return returnList;
+        return this.followers;
 
     }
 
-    public List<Integer> getFollowing(){
+    public List<User> getFollowing(){
 
-        ArrayList<Integer> returnList = new ArrayList<>();
-
-        for(User user : this.following){
-
-            returnList.add(user.getId());
-
-        }
-
-        return returnList;
+        return this.following;
 
     }
+
 
     public void setUserRole(USER_ROLE userRole) {
         this.userRole = userRole;

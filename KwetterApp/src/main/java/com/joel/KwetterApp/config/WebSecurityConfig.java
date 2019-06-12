@@ -32,7 +32,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/user/signin").permitAll()
                 .antMatchers("/user/signup").permitAll()
                 .antMatchers("/socket/**").permitAll()
-                .antMatchers("/simpleemail/**").permitAll()
+                .antMatchers("/user/verify/**").permitAll()
                 // Disallow everything else..
                 .anyRequest().authenticated();
 

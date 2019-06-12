@@ -90,9 +90,18 @@ public class UserService {
         User isBeingFollowed = userRepo.getById(idIsBeingFollowed);
         User isFollowing = userRepo.getById(idIsFollowing);
 
-        //Add the follower and following to the objects
-        isBeingFollowed.addToFollower(isFollowing);
-        isFollowing.addToFollowing(isBeingFollowed);
+        if(isBeingFollowed.getFollowers().contains(isFollowing)){
+
+            isBeingFollowed.removeFollower(isFollowing);
+            isFollowing.removeFollowing(isBeingFollowed);
+
+        } else {
+
+            //Add the follower and following to the objects
+            isBeingFollowed.addToFollower(isFollowing);
+            isFollowing.addToFollowing(isBeingFollowed);
+
+        }
 
         //Save the objects in the db
         userRepo.save(isBeingFollowed);
@@ -157,6 +166,37 @@ public class UserService {
             userRepo.save(changedUser);
 
         }
+
+    }
+
+    public String verify(String token) {
+
+        try{
+
+            User user = userRepo.findByTokenToken(token);
+
+            user.getToken().setVerified(true);
+
+            userRepo.save(user);
+
+            return "Your account is verified";
+
+        }
+        catch (Exception ex){
+
+            return "Your account isn't verified";
+
+        }
+
+    }
+
+    public Boolean isFollowing(int idIsBeingFollowed, int id) {
+
+        User isBeingFollowed = userRepo.getById(idIsBeingFollowed);
+        User isFollowing = userRepo.getById(id);
+
+        return isBeingFollowed.getFollowers().contains(isFollowing);
+
 
     }
 }
