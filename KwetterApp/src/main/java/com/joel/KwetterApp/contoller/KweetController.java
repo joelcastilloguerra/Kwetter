@@ -6,12 +6,14 @@ import com.joel.KwetterApp.service.KweetService;
 import com.joel.KwetterApp.service.UserService;
 import com.sun.org.apache.regexp.internal.RE;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @RestController
+@Scope("request")
 @RequestMapping("/kweet")
 public class KweetController {
 

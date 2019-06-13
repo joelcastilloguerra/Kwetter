@@ -179,7 +179,7 @@ public class UserService {
 
             userRepo.save(user);
 
-            return "Your account is verified";
+            return "Welcome " + user.getFirstname() + ", your account is verified";
 
         }
         catch (Exception ex){
@@ -197,6 +197,12 @@ public class UserService {
 
         return isBeingFollowed.getFollowers().contains(isFollowing);
 
+
+    }
+
+    public void delete(int id) {
+
+        userRepo.deleteById(id);
 
     }
 }
